@@ -272,7 +272,7 @@ void VocalPlusAudioProcessorEditor::paintContent (juce::Graphics& g)
 
     g.setColour (VocalPlusLookAndFeel::kTextSecondary);
     g.setFont (juce::FontOptions (11.5f));
-    g.drawText ("Professional Vocal Harmony & Pitch Correction", 20, 40, 360, 16,
+    g.drawText ("Professional Vocal Harmony & Pitch Correction · by Neeberman", 20, 40, 420, 16,
                 juce::Justification::centredLeft);
 
     const juce::Rectangle<int> meter (kContentWidth - 250, 14, 230, 36);

@@ -257,7 +257,7 @@ void VoxPlusAudioProcessorEditor::paintContent (juce::Graphics& g)
 
     g.setColour (VoxPlusLookAndFeel::kTextSecondary);
     g.setFont (juce::FontOptions (11.0f));
-    g.drawText ("Vocal Multi-FX · Voice · Dynamics · Character · Filter · Delay · Reverb · Chop",
+    g.drawText ("Vocal Multi-FX · Voice · Dynamics · Character · Filter · Delay · Reverb · Chop · by Neeberman",
                 18, 42, 620, 16, juce::Justification::centredLeft);
 
     drawNeonPanel (g, { 16, 84, 1208, 168 }, "Voice");

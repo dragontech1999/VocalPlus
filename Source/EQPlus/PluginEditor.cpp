@@ -223,7 +223,7 @@ void EQPlusAudioProcessorEditor::paintContent (juce::Graphics& g)
 
     g.setColour (EQPlusLookAndFeel::kTextSecondary);
     g.setFont (juce::FontOptions (11.0f));
-    g.drawText ("Dynamic Equalizer", 64, 16, 160, 18, juce::Justification::centredLeft, false);
+    g.drawText ("Dynamic Equalizer · by Neeberman", 64, 16, 220, 18, juce::Justification::centredLeft, false);
 }
 
 void EQPlusAudioProcessorEditor::layoutKnobRow (juce::Rectangle<int>& row, int numKnobs,

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build a standalone macOS installer (.pkg) for Vocal+, EQ+, Tune+, and VOX.
+# Build a standalone macOS installer (.pkg) for the full Vocal+ suite by Neeberman.
 # Plugins are signed with Apple Development (required for Logic Pro verification).
 # The .pkg itself is ad-hoc signed so no Developer ID Installer cert is needed.
 

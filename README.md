@@ -1,10 +1,14 @@
 # Vocal+
 
-**Vocal+** is a macOS audio plugin suite for Logic Pro and any AU/VST3 host. It includes AUv2 effects (Vocal+, Tune+, EQ+, VOX, VocalChange+) and **VocalAir+**, an AUv3 vocal chain app extension in the same family.
+**Created by Neeberman**
+
+**Vocal+** is a macOS audio plugin suite for Logic Pro and any AU/VST3 host. It includes AUv2 effects (Vocal+, Tune+, EQ+, VOX+, VocalChange+, **VocalAI+**) and **VocalAir+**, an AUv3 vocal chain app extension in the same family.
+
+For the complete suite reference — all plugins, install options, build commands, and AU codes — see **[PACKAGE.md](PACKAGE.md)**.
 
 See **[INSTALL.md](INSTALL.md)** for Logic Pro setup (Apple Development signing required).
 
-## Features
+## Features (Vocal+ core plugin)
 
 - **Auto-Tune Engine** — YIN pitch detection, scale-aware quantization (major, minor, pentatonic, modes), adjustable retune speed, tolerance, and formant preservation
 - **3 Harmony Singers** — Independent interval, level, pan, formant shift, delay, and vibrato per voice
@@ -21,10 +25,11 @@ See **[INSTALL.md](INSTALL.md)** for Logic Pro setup (Apple Development signing 
 ## Build
 
 ```bash
-cd ~/Documents/VocalPlus
+cd VocalPlus
 chmod +x build.sh scripts/sign-local.sh scripts/lib/logic-sign.sh
 ./build.sh xcode    # generate Xcode project (auto-detects your Apple Development team)
 ./build.sh build    # build + sign + install plugins locally
+./build.sh package  # build full suite + Desktop installer
 ./build.sh logic    # re-sign + install for Logic (no rebuild)
 ./build.sh vocalair # build + install VocalAir+ AUv3 only
 ```
@@ -92,17 +97,21 @@ Import these into Logic or any DAW for further editing.
 
 ```
 VocalPlus/
-├── CMakeLists.txt          # JUCE plugin definition
+├── PACKAGE.md              # Full suite reference (all plugins)
+├── CMakeLists.txt          # JUCE plugin definitions
 ├── build.sh                # Generate Xcode / build
-├── Assets/                 # App icon
+├── Assets/                 # App icons
 ├── Source/
-│   ├── PluginProcessor.*   # Host integration, parameters
-│   ├── PluginEditor.*      # Modern UI
-│   ├── DSP/                # Pitch, auto-tune, harmony, export
-│   └── UI/                 # Custom look and feel
+│   ├── PluginProcessor.*   # Vocal+ host integration
+│   ├── PluginEditor.*      # Vocal+ UI
+│   ├── EQPlus/ TunePlus/ VoxPlus/ VocalChangePlus/ VocalAIPlus/
+│   ├── DSP/                # Shared pitch, harmony, export
+│   └── UI/                 # Shared editor shell + look and feel
 └── Build/                  # Generated Xcode project (after build.sh)
 ```
 
 ## License
 
-Copyright © 2026 VocalPlus Audio. All rights reserved.
+Copyright © 2026 **Neeberman**. All rights reserved.
+
+Repository: [github.com/dragontech1999/VocalPlus](https://github.com/dragontech1999/VocalPlus)

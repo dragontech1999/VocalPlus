@@ -3,6 +3,7 @@ Build-Ninja/
 VocalAirPlus/
 .upstream/
 .tools/
+dist/
 .DS_Store
 *.xcodeproj/xcuserdata/
 *.xcworkspace/xcuserdata/

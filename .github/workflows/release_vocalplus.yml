@@ -54,7 +54,7 @@ jobs:
           files: |
             dist/VocalPlus-source.zip
             dist/VocalPlus-AU-artefacts.zip
-          body_path: INSTALL.md
+          body_path: PACKAGE.md
           draft: false
           prerelease: false
         env:

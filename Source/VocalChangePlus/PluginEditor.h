@@ -39,7 +39,7 @@ private:
     std::unique_ptr<ScrollableContent> scrollContent;
 
     juce::Label titleLabel { {}, "VocalChange+" };
-    juce::Label subtitleLabel { {}, "Real-time voice transformation" };
+    juce::Label subtitleLabel { {}, "Real-time voice transformation by Neeberman" };
     juce::Label presetDescLabel;
     juce::TextButton randomizeButton { "Randomize" };
 

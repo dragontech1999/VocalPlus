@@ -40,7 +40,7 @@ private:
     std::unique_ptr<ScrollableContent> scrollContent;
 
     juce::Label titleLabel { {}, "VocalAI+" };
-    juce::Label subtitleLabel { {}, "AI vocal mastering from VocalForge" };
+    juce::Label subtitleLabel { {}, "AI vocal mastering by Neeberman" };
     juce::Label presetDescLabel, rationaleLabel;
     juce::Label analysisLabel, meterLabel;
     juce::TextButton aiMasterButton { "AI Master" };

@@ -329,7 +329,7 @@ void TunePlusAudioProcessorEditor::paintContent (juce::Graphics& g)
 
     g.setColour (TunePlusLookAndFeel::kTextSecondary);
     g.setFont (juce::FontOptions (11.5f));
-    g.drawText ("Professional Auto-Tune · Harmony · Vocal Compressor", 20, 42, 420, 16,
+    g.drawText ("Professional Auto-Tune · Harmony · Vocal Compressor · by Neeberman", 20, 42, 480, 16,
                 juce::Justification::centredLeft);
 
     const juce::Rectangle<int> meter (kContentWidth - 320, 16, 300, 40);
