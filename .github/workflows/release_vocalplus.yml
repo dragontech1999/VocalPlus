@@ -1,0 +1,61 @@
+name: Build and Publish VocalPlus
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Generate and Build (Release)
+        run: |
+          chmod +x build.sh scripts/*.sh scripts/lib/*.sh 2>/dev/null || true
+          ./build.sh xcode
+          cmake --build Build --config Release \
+            --target VocalPlus_AU VocalPlus_VST3 \
+                      TunePlus_AU TunePlus_VST3 \
+                      VoxPlus_AU VoxPlus_VST3 \
+                      VocalChangePlus_AU VocalChangePlus_VST3 \
+                      VocalAIPlus_AU VocalAIPlus_VST3 \
+                      EQPlus_AU EQPlus_VST3
+
+      - name: Package Source and Build Artefacts
+        run: |
+          mkdir -p dist
+          zip -r dist/VocalPlus-source.zip . \
+            -x 'Build/_deps/*' 'Build/**/CMakeFiles/*' '*.git/*' 'dist/*'
+          if [[ -d Build/VocalPlus_artefacts/Release/AU ]]; then
+            zip -r dist/VocalPlus-AU-artefacts.zip \
+              Build/VocalPlus_artefacts/Release/AU \
+              Build/TunePlus_artefacts/Release/AU \
+              Build/VoxPlus_artefacts/Release/AU \
+              Build/VocalChangePlus_artefacts/Release/AU \
+              Build/VocalAIPlus_artefacts/Release/AU \
+              Build/EQPlus_artefacts/Release/AU
+          fi
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/VocalPlus-source.zip
+            dist/VocalPlus-AU-artefacts.zip
+          body_path: INSTALL.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "presets": [
+    { "name": "Pop Lead", "category": "Pop" },
+    { "name": "Hard Tune FX", "category": "Hip-Hop / R&B" },
+    { "name": "Gospel Stack", "category": "Gospel / Soul" },
+    { "name": "Indie Natural", "category": "Indie / Folk" },
+    { "name": "EDM Chops", "category": "Electronic" },
+    { "name": "Choir Cathedral", "category": "Cinematic" },
+    { "name": "Country Honky", "category": "Country" },
+    { "name": "Lo-Fi Bedroom", "category": "Lo-Fi" }
+  ]
+}

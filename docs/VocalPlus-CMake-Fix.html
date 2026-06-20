@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VocalPlus — Fix CMake Not Found</title>
+<style>
+  @page { margin: 1in; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.45;
+    color: #1a1a1a;
+    max-width: 7in;
+    margin: 0 auto;
+  }
+  h1 { font-size: 22pt; margin-bottom: 0.2em; color: #111; }
+  h2 { font-size: 14pt; margin-top: 1.4em; border-bottom: 1px solid #ccc; padding-bottom: 0.2em; }
+  h3 { font-size: 12pt; margin-top: 1em; }
+  .subtitle { color: #555; font-size: 11pt; margin-bottom: 1.5em; }
+  code, pre {
+    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 9.5pt;
+    background: #f4f4f5;
+    border-radius: 4px;
+  }
+  pre {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  code { padding: 1px 5px; }
+  .ok { color: #0a7; font-weight: 600; }
+  .warn { color: #b60; }
+  ul { padding-left: 1.2em; }
+  li { margin: 0.35em 0; }
+  table { border-collapse: collapse; width: 100%; margin: 0.8em 0; font-size: 10pt; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+  th { background: #eee; }
+  .footer { margin-top: 2em; font-size: 9pt; color: #666; }
+</style>
+</head>
+<body>
+
+<h1>Vocal+ Build Guide</h1>
+<p class="subtitle">Fix: <strong>CMake not found. Install CMake or set CMAKE to its path.</strong><br>
+Prepared: June 13, 2026 &nbsp;|&nbsp; Project: ~/Documents/VocalPlus</p>
+
+<h2>What happened</h2>
+<p>
+  <code>./build.sh</code> runs CMake to generate the Xcode project and compile the JUCE plugins.
+  macOS did not have <code>cmake</code> on your PATH, and the old fallback path
+  (<code>/tmp/cmake-…</code>) was empty or had been cleared after a restart.
+</p>
+
+<h2>What was done for you</h2>
+<ul>
+  <li><span class="ok">CMake 3.31.6</span> was downloaded into the project at:<br>
+    <code>~/Documents/VocalPlus/.tools/cmake-3.31.6-macos-universal/</code></li>
+  <li><code>build.sh</code> was updated to use that bundled copy automatically.</li>
+  <li>A helper script was added: <code>scripts/install-cmake.sh</code></li>
+  <li><span class="ok">Full build completed successfully</span> (Vocal+ AU/VST3 plugins + VocalAir+).</li>
+</ul>
+
+<h2>Build commands (after fix)</h2>
+<pre>cd ~/Documents/VocalPlus
+./build.sh xcode    # generate Xcode project (first time or after CMakeLists changes)
+./build.sh build    # compile, sign, install for Logic Pro
+./build.sh logic    # re-sign / reinstall without full rebuild</pre>
+
+<h2>If the error appears again</h2>
+
+<h3>Option A — Automatic (recommended)</h3>
+<pre>cd ~/Documents/VocalPlus
+chmod +x scripts/install-cmake.sh
+./scripts/install-cmake.sh
+./build.sh xcode</pre>
+<p>This re-downloads CMake into <code>.tools/</code> if it is missing.</p>
+
+<h3>Option B — Point build.sh at CMake manually</h3>
+<p>If you install the official CMake app from <code>https://cmake.org/download/</code>:</p>
+<pre>export CMAKE="/Applications/CMake.app/Contents/bin/cmake"
+cd ~/Documents/VocalPlus
+./build.sh xcode</pre>
+<p>To make that permanent, add the <code>export</code> line to <code>~/.zshrc</code> and run <code>source ~/.zshrc</code>.</p>
+
+<h3>Option C — Homebrew (if you use brew)</h3>
+<pre>brew install cmake
+cd ~/Documents/VocalPlus
+./build.sh xcode</pre>
+
+<h2>Verify CMake is found</h2>
+<pre>cd ~/Documents/VocalPlus
+./build.sh xcode</pre>
+<p>You should see <em>Configuring juceaide</em> and <em>Build files have been written to: …/Build</em> — not the CMake error.</p>
+
+<p>Or check the bundled binary directly:</p>
+<pre>~/Documents/VocalPlus/.tools/cmake-3.31.6-macos-universal/CMake.app/Contents/bin/cmake --version</pre>
+
+<h2>Search order used by build.sh</h2>
+<table>
+  <tr><th>Order</th><th>Location</th></tr>
+  <tr><td>1</td><td><code>cmake</code> on your PATH</td></tr>
+  <tr><td>2</td><td><code>~/Documents/VocalPlus/.tools/cmake-3.31.6-macos-universal/…/cmake</code></td></tr>
+  <tr><td>3</td><td><code>/tmp/cmake-3.31.6-macos-universal/…/cmake</code></td></tr>
+  <tr><td>4</td><td><code>/Applications/CMake.app/Contents/bin/cmake</code></td></tr>
+  <tr><td>5</td><td><code>$CMAKE</code> environment variable (you set this)</td></tr>
+</table>
+
+<h2>Logic Pro after building</h2>
+<ol>
+  <li>Quit Logic completely (Cmd+Q).</li>
+  <li>Open Logic → Settings → Plug-In Manager → Reset &amp; Rescan Selection.</li>
+  <li>Enable plugins under manufacturer <strong>Vocal+</strong>.</li>
+</ol>
+
+<h2>Requirements reminder</h2>
+<ul>
+  <li>macOS 11+ (VocalAir+ needs macOS 12+)</li>
+  <li>Xcode 15+ with an <strong>Apple Development</strong> certificate</li>
+  <li>CMake 3.22+ (now bundled in <code>.tools/</code>)</li>
+</ul>
+
+<p class="footer">
+  Vocal+ · ~/Documents/VocalPlus · For support, re-run <code>./scripts/install-cmake.sh</code> then <code>./build.sh build</code>.
+</p>
+
+</body>
+</html>
